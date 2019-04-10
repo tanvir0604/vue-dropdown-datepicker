@@ -1,0 +1,34 @@
+{
+    "name": "vue-dropdown-datepicker",
+    "title": "Vue Dropdown Datepicker",
+    "description": "A simple and customizable dropdown datepicker vue component",
+    "keywords": [
+        "vue",
+        "vuejs",
+        "component",
+        "dropdown",
+        "datepicker",
+        "daterangepicker"
+    ],
+    "version": "1.0.0",
+    "author": {
+        "name": "Md Shafkat Hussain Tanvir",
+        "email": "tanvir0604@gmail.com",
+        "url": "https://github.com/tanvir0604"
+    },
+    "maintainers": [
+        {
+            "name": "Md Shafkat Hussain Tanvir",
+            "email": "tanvir0604@gmail.com",
+            "url": "https://github.com/tanvir0604"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "ISC"
+        }
+    ],
+    "dependencies": {
+        "vue": ">=2.6.10"
+    }
+}
