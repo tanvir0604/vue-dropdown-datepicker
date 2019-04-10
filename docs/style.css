@@ -1,0 +1,129 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto+Condensed:400,700);
+
+/* Body - remove browser margin & set padding to accommodate for the fixed header bar */
+body {
+    margin: 0;
+    padding-top: 89px;
+    background: #FEFEFE;
+    font-family: "Roboto Condensed", helvetica, arial, sans-serif;
+    color: #4F5462;
+}
+
+/* Header Bar */
+.header-bar {
+    background: rgb(17, 58, 121);
+    color: #FFF;
+    padding: 0 50px 0 30px;
+    box-sizing: border-box;
+    font-family: "Roboto Condensed", helvetica, arial, sans-serif;
+    letter-spacing: 0.01em;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+.header-bar h1 {
+    font-size: 1.45em;
+    font-weight: 400;
+    display: inline-block;
+}
+
+.header-bar h1 strong {
+    font-weight: 700;
+    margin-right: 2px;
+}
+
+.header-bar nav {
+    float: right;
+}
+
+.header-bar nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+.header-bar nav ul li {
+    list-style-type: none;
+    display: inline-block;
+    float: left;
+}
+
+.header-bar nav ul li a {
+    line-height: 59px;
+    color: #FFF;
+    text-decoration: none;
+    font-size: 17px;
+    padding: 0 20px;
+    display: inline-block;
+}
+
+.header-bar nav ul li.active,
+.header-bar nav ul li:hover {
+    background: rgb(55, 97, 160);;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 95%;
+    text-align: center;
+}
+
+.example{
+    /* display: block; */
+    /* float: left; */
+    border:1px solid #EEE;
+    padding: 20px 30px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.example input {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 150px;
+    padding: 8px 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    background: #F2F2F2;
+    text-align: center;
+    font-size: 1em;
+    letter-spacing: 0.02em;
+    font-family: "Roboto Condensed", helvetica, arial, sans-serif;
+}
+.example select {
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    margin: 0 3px;
+}
+pre{
+    text-align: left;
+    padding: 20px;
+    background-color: #272821;
+    color: wheat;
+    border-radius: 5px;
+}
+
+/* Media */
+@media(max-width: 847px) {
+    .header-bar h1 {
+        text-align: center !important;
+        width: 100%;
+    }
+
+    .header-bar nav {
+        display: none;
+    }
+
+    .example:first-of-type {
+        bottom: 0;
+    }
+}
+
+@media(min-width: 848px) {
+    .header-bar nav {
+        display: block;
+    }
+}

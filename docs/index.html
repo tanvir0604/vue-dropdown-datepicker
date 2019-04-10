@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue Dropdown Datepicker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+
+        <div class="header-bar">
+            <h1><strong>Vue Dropdown Datepicker</strong></h1>
+
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://github.com/tanvir0604/vue-dropdown-datepicker/blob/master/README.md">Documentation</a>
+                    </li>
+                    <li class="active">
+                        <a href="#">Examples</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/tanvir0604/vue-dropdown-datepicker">Github</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="wrapper" id="app">
+
+<div class="example">
+    <pre>
+            import DropdownDatepicker from '../src/dropdown-datepicker.vue';
+            new Vue({
+                el: '#app',
+                components: {
+                    DropdownDatepicker
+                },
+                data:{},
+                methods: {
+                    //your method codes here
+                }
+            });
+    </pre>
+</div>
+
+
+                <div class="example">
+                    <h2>Plugin Defaults</h2>
+                    <input type="text" id="example1" readonly='readonly'>
+                    <dropdown-datepicker submit-id="example1"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker&gt;&lt;/dropdown-datepicker&gt;</pre>
+                    
+                </div>
+
+
+                <!-- date range -->
+                <div class="example">
+                        <h2>Date Range</h2>
+                        <input type="text" id="from" readonly='readonly'>
+                        <dropdown-datepicker submit-id="from" v-bind:on-change="onChange" v-bind:min-date="minDate"></dropdown-datepicker>
+                        <br>
+                        TO:
+                        <br>
+                        <br>
+                        <input type="text" id="to" readonly='readonly'>
+                        <dropdown-datepicker submit-id="to" ref="to"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="from" v-bind:on-change="onChange" v-bind:min-date="minDate"&gt;&lt;/dropdown-datepicker&gt;</pre>                        
+<pre>&lt;dropdown-datepicker submit-id="to" ref="to"&gt;&lt;/dropdown-datepicker&gt;</pre>
+<pre>
+        data:{
+            .....
+            minDate: null,
+            maxDate: null
+        },
+        methods: {
+            ..........
+            onChange(day, month, year){
+                var days = 100;
+                if(day != '' && month != '' && year != ''){
+                    this.minDate = year+'-'+month+'-'+day;
+                    this.minDate = new Date(this.minDate);
+                    this.minDate.setDate(this.minDate.getDate());
+                    this.minDate = this.minDate.getFullYear()+'-'+(this.minDate.getMonth()+1)+'-'+this.minDate.getDate();
+                    this.maxDate = new Date(this.minDate);
+                    this.maxDate.setDate(this.maxDate.getDate()+days);
+                    this.maxDate = this.maxDate.getFullYear()+'-'+(this.maxDate.getMonth()+1)+'-'+this.maxDate.getDate();
+                    this.$refs.to.minDateValue = this.minDate;
+                    this.$refs.to.maxDateValue = this.maxDate;
+                    this.$refs.to.init();
+                }
+            }
+        }
+</pre>
+                        
+                </div>
+                <!-- date range -->
+
+
+
+        
+                <div class="example">
+                    <h2>Submit Format</h2>
+                    <input type="text" id="example2" readonly='readonly'>
+                    <dropdown-datepicker submit-id="example2" submit-format="dd/mm/yyyy"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="example2" submit-format="dd/mm/yyyy"&gt;&lt;/dropdown-datepicker&gt;</pre>
+                    
+                </div>  
+        
+
+                <div class="example">
+                    <h2>Default Date</h2>
+                    <input type="text" id="example3" readonly='readonly' value="2010-02-17">
+                    <dropdown-datepicker submit-id="example3" default-date="2010-02-17"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="example3" default-date="2010-02-17"&gt;&lt;/dropdown-datepicker&gt;</pre>
+                </div>
+
+
+
+                <div class="example">
+                    <h2>Min. Age 18 (Year)</h2>
+                    <input type="text" id="example4" readonly='readonly'>
+                    <dropdown-datepicker submit-id="example4" v-bind:min-age="18"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="example4" v-bind:min-age="18"&gt;&lt;/dropdown-datepicker&gt;</pre>
+                </div>
+
+			    <div class="example">
+				    <h2>Alternative Display Format</h2>
+                    <input type="text" id="example5" readonly='readonly'>
+                    <dropdown-datepicker submit-id="example5" display-format="mdy"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="example5" display-format="mdy"&gt;&lt;/dropdown-datepicker&gt;</pre>
+			    </div>
+
+			    <div class="example">
+				    <h2>Short Month Names</h2>
+                    <input type="text" id="example6" readonly='readonly'>
+                    <dropdown-datepicker submit-id="example6" month-format="short"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="example6" month-format="short"&gt;&lt;/dropdown-datepicker&gt;</pre>
+			    </div>
+
+			    <div class="example">
+				    <h2>Unix</h2>
+                    <input type="text" id="example7" readonly='readonly'>
+                    <dropdown-datepicker submit-id="example7" submit-format="unix" default-date-format="unix"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="example7" submit-format="unix" default-date-format="unix"&gt;&lt;/dropdown-datepicker&gt;</pre>
+			    </div>
+
+			    <div class="example">
+				    <h2>Unix Default Date</h2>
+                    <input type="text" id="example8" readonly='readonly' value="2148844553">
+                    <dropdown-datepicker submit-id="example8" submit-format="unix" default-date-format="unix" default-date="2148844553"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="example8" submit-format="unix" default-date-format="unix" default-date="2148844553"&gt;&lt;/dropdown-datepicker&gt;</pre>
+			    </div>
+
+			    <div class="example">
+				    <h2>Unix Input Default Date</h2>
+                    <input type="text" id="example9" value="456692066" readonly='readonly'>
+                    <dropdown-datepicker submit-id="example9" submit-format="unix" default-date-format="unix" ></dropdown-datepicker>
+<pre><input type="text" id="example9" value="456692066"></pre>
+<pre>&lt;dropdown-datepicker submit-id="example9" submit-format="unix" default-date-format="unix" &gt;&lt;/dropdown-datepicker&gt;</pre>
+			    </div>
+
+                <div class="example">
+                    <h2>Required</h2>
+                    <form>
+                        <input type="text" id="example10" readonly='readonly'>
+                        <input type="submit" value="Test Submit">
+                        <dropdown-datepicker submit-id="example10" v-bind:required="true"></dropdown-datepicker>
+                    </form>
+<pre>&lt;dropdown-datepicker submit-id="example10" v-bind:required="true"&gt;&lt;/dropdown-datepicker&gt;</pre>
+                </div>
+		
+		        <div class="example">
+				    <h2>Alternative Select Labels</h2>
+                    <input type="text" id="example11" readonly='readonly'>
+                    <dropdown-datepicker submit-id="example11" year-label="Anno" month-label="Mense" day-label="Die"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker submit-id="example11" year-label="Anno" month-label="Mense" day-label="Die"&gt;&lt;/dropdown-datepicker&gt;</pre>
+			    </div>
+            </div>
+
+
+        </div>
+    
+    
+
+    <script src="https://unpkg.com/vue"></script>
+    <!-- <script src="https://unpkg.com/browser-vue-loader"></script> -->
+    <script src="../dist/dropdown-datepicker.min.js"></script>
+    <script>
+        // import DropdownDatepicker from '../src/dropdown-datepicker.vue';
+        var app = new Vue({
+            el: '#app',
+            
+            data:{
+                minDate: null,
+                maxDate: null
+            },
+            methods: {
+                onChange(day, month, year){
+                    var days = 100;
+                    if(day != '' && month != '' && year != ''){
+                        this.minDate = year+'-'+month+'-'+day;
+                        this.minDate = new Date(this.minDate);
+                        this.minDate.setDate(this.minDate.getDate());
+                        this.minDate = this.minDate.getFullYear()+'-'+(this.minDate.getMonth()+1)+'-'+this.minDate.getDate();
+                        this.maxDate = new Date(this.minDate);
+                        this.maxDate.setDate(this.maxDate.getDate()+days);
+                        this.maxDate = this.maxDate.getFullYear()+'-'+(this.maxDate.getMonth()+1)+'-'+this.maxDate.getDate();
+                        this.$refs.to.minDateValue = this.minDate;
+                        this.$refs.to.maxDateValue = this.maxDate;
+                        this.$refs.to.init();
+                    }
+                }
+            }
+        });
+       
+    </script>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119929696-3"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-119929696-3');
+    </script>
+
+</body>
+</html>

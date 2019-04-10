@@ -1,0 +1,39 @@
+{
+  "name": "vue-dropdown-datepicker",
+  "version": "1.0.0",
+  "description": "A simple and customizable dropdown datepicker vue component",
+  "main": "dist/dropdown-datepicker.umd.js",
+  "module": "dist/dropdown-datepicker.esm.js",
+  "unpkg": "dist/dropdown-datepicker.min.js",
+  "browser": {
+    "./sfc": "src/dropdown-datepicker.vue"
+  },
+  "scripts": {
+    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
+    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/dropdown-datepicker.umd.js",
+    "build:es": "rollup --config build/rollup.config.js --format es --file dist/dropdown-datepicker.esm.js",
+    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/dropdown-datepicker.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanvir0604/vue-dropdown-datepicker.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "component",
+    "dropdown",
+    "datepicker",
+    "daterangepicker"
+  ],
+  "author": "Md Shafkat Hussain Tanvir <tanvir0604@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "rollup": "^1.9.0",
+    "rollup-plugin-buble": "^0.19.6",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-vue": "^4.7.2",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10"
+  }
+}
