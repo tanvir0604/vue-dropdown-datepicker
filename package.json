@@ -28,6 +28,10 @@
   ],
   "author": "Md Shafkat Hussain Tanvir <tanvir0604@gmail.com>",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tanvir0604/vue-dropdown-datepicker/issues"
+  },
+  "homepage": "https://github.com/tanvir0604/vue-dropdown-datepicker#readme",
   "devDependencies": {
     "rollup": "^1.9.0",
     "rollup-plugin-buble": "^0.19.6",
