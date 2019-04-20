@@ -30,11 +30,11 @@ bower install vue-dropdown-datepicker
 #### Using CDN
 
 ```code
-<script src="https://cdn.jsdelivr.net/npm/vue-dropdown-datepicker@1.0.0/dist/dropdown-datepicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-dropdown-datepicker@1.0.2/dist/dropdown-datepicker.min.js"></script>
 ```
 OR
 ```code
-<script src="https://unpkg.com/vue-dropdown-datepicker@1.0.0/dist/dropdown-datepicker.min.js"></script>
+<script src="https://unpkg.com/vue-dropdown-datepicker@1.0.2/dist/dropdown-datepicker.min.js"></script>
 ```
 ## Usage
 
