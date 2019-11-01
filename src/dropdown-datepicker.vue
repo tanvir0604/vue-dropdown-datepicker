@@ -361,9 +361,16 @@ export default {
       this.year = value;
       this.populateMonth();
       this.populateDay();
-      this.month = null;
-      this.day = null;
-    //   console.log(this.year, this.month, this.day);
+
+      if (this.months.indexOf(this.month) < 0) {
+          this.month = null;
+      }
+
+      if (this.days.indexOf(this.day) < 0) {
+          this.day = null;
+      }
+
+      //   console.log(this.year, this.month, this.day);
       if(this.onYearChange != null){
         this.onYearChange(value);
       }
@@ -371,8 +378,10 @@ export default {
     },
     monthChangeCallback(value) {
       this.month = value;
-      this.day = null;
       this.populateDay();
+      if (this.days.indexOf(this.day) < 0) {
+          this.day = null;
+      }
       if(this.onMonthChange != null){
         this.onMonthChange(value);
       }
@@ -403,15 +412,15 @@ export default {
     },
     dayChangeCallback(value){
       this.day = value;
-      if(this.day != 0 && this.month != 0 && this.year != 0 && this.submitId != ''){
-        document.getElementById(this.submitId).value = this.formatSubmitDate(this.day, this.month, this.year);
-      }
       if(this.onDayChange != null){
         this.onDayChange(value);
       }
       this.changeCallback();
     },
     changeCallback(){
+        if(this.day != null && this.month != null && this.year != null && this.submitId != ''){
+          document.getElementById(this.submitId).value = this.formatSubmitDate(this.day, this.month, this.year);
+        }
         if(this.onChange != null){
             this.onChange(this.day, this.month, this.year);
         }
