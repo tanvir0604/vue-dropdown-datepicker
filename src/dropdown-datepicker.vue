@@ -52,7 +52,8 @@ export default {
     onDayChange: {type: Function, default:null},
     onMonthChange: {type: Function, default:null},
     onYearChange: {type: Function, default:null},
-    onChange: {type: Function, default: null}
+    onChange: {type: Function, default: null},
+    value: {type: String, default:null}
   },
   components: {
     Select
@@ -418,8 +419,12 @@ export default {
       this.changeCallback();
     },
     changeCallback(){
-        if(this.day != null && this.month != null && this.year != null && this.submitId != ''){
-          document.getElementById(this.submitId).value = this.formatSubmitDate(this.day, this.month, this.year);
+        if(this.day != null && this.month != null && this.year != null){
+          var formattedDate = this.formatSubmitDate(this.day, this.month, this.year);
+          if (this.submitId != '') {
+            document.getElementById(this.submitId).value = formattedDate;
+          }
+          this.$emit('input', formattedDate);
         }
         if(this.onChange != null){
             this.onChange(this.day, this.month, this.year);
