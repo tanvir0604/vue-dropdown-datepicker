@@ -179,6 +179,14 @@
                     <dropdown-datepicker submit-id="example11" year-label="Anno" month-label="Mense" day-label="Die"></dropdown-datepicker>
 <pre>&lt;dropdown-datepicker submit-id="example11" year-label="Anno" month-label="Mense" day-label="Die"&gt;&lt;/dropdown-datepicker&gt;</pre>
 			    </div>
+
+                <div class="example">
+                    <h2>v-model support</h2>
+                    <p>{{ exampleModel }}</p>
+                    <dropdown-datepicker v-model="exampleModel"></dropdown-datepicker>
+<pre>&lt;dropdown-datepicker v-model="exampleModel"&gt;&lt;/dropdown-datepicker&gt;</pre>
+
+                </div>
             </div>
 
 
@@ -195,7 +203,8 @@
             el: '#app',
             data:{
                 minDate: null,
-                maxDate: null
+                maxDate: null,
+                exampleModel: null
             },
             methods: {
                 onChange(day, month, year){
