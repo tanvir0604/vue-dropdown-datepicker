@@ -427,7 +427,7 @@ export default {
           this.$emit('input', formattedDate);
         }
         if(this.onChange != null){
-            this.onChange(this.day, this.month, this.year);
+            this.onChange(('0' + this.day).slice(-2), ('0' + this.month).slice(-2), this.year);
         }
     }
   }
