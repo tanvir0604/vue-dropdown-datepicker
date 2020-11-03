@@ -218,13 +218,16 @@ export default {
       if(this.minDateValue !== null && new Date(this.minDateValue).getFullYear() === year && new Date(this.minDateValue).getMonth() + 1 === month){
           start1 = start1 < new Date(this.minDateValue).getDate()?new Date(this.minDateValue).getDate():start1;
       }
-      
 
-      
       if(start2 < start1){
           start2 = start1;
       }
 
+      if (this.maxDateValue !== null) {
+        if (new Date(this.maxDateValue).getDate() <= 9) {
+          end1 = new Date(this.maxDateValue).getDate();
+        }
+      }
 
       var numDaysInMonth = (new Date(year, month, 0).getDate());
       if(end2 > numDaysInMonth) {
@@ -236,7 +239,6 @@ export default {
       }
       
 
-
       if(this.minAge != null){
           if(year === this.currentYear - this.minAge && month === this.currentMonth){
               end2 = this.currentDay;
@@ -247,20 +249,12 @@ export default {
           end2 = end2 > new Date(this.maxDateValue).getDate()?new Date(this.maxDateValue).getDate():end2;
       }
 
-      if (this.maxDateValue !== null) {
-        if (new Date(this.maxDateValue).getDate() <= 9) {
-          end1 = new Date(this.maxDateValue).getDate();
-        }
-      }
-      
-
       if(end1 > start2){
           start2 = end1;
       }
       if(start2 > end2){
           end2 = start2;
       }
-
 
       this.days = [];
       this.dayOptions = [];
