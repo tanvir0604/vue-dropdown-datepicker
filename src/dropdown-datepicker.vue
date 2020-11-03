@@ -246,6 +246,11 @@ export default {
       if(this.maxDateValue !== null && new Date(this.maxDateValue).getFullYear() === year && new Date(this.maxDateValue).getMonth() + 1 === month){
           end2 = end2 > new Date(this.maxDateValue).getDate()?new Date(this.maxDateValue).getDate():end2;
       }
+
+      if (this.maxDateValue !== null) {
+        console.log(this);
+        end1 = new Date(this.maxDateValue).getDay();
+      }
       
 
       if(end1 > start2){
@@ -262,11 +267,6 @@ export default {
       if(this.dayLabel){
           this.dayOptions.push(this.dayLabel);
           this.days.push(null);
-      }
-
-      if (this.maxDateValue !== null) {
-        end1 = new Date(this.maxDateValue).getDay();
-        console.log(end1);
       }
 
       // Days 1-9
