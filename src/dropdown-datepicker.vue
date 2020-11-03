@@ -264,6 +264,10 @@ export default {
           this.days.push(null);
       }
 
+      if (this.maxDateValue !== null) {
+        end1 = new Date(this.maxDateValue).getDay();
+      }
+
       // Days 1-9
       for (var i = start1; i <= end1; i++) {
           if (this.daySuffixes) {
