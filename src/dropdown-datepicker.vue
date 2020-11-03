@@ -248,8 +248,9 @@ export default {
       }
 
       if (this.maxDateValue !== null) {
-        console.log(this);
-        end1 = new Date(this.maxDateValue).getDate();
+        if (new Date(this.maxDateValue).getDate() <= 9) {
+          end1 = new Date(this.maxDateValue).getDate();
+        }
       }
       
 
@@ -281,14 +282,16 @@ export default {
       }
 
       // Days 10-31
-      for (var j = start2; j <= end2; j++) {
-          day = j;
+      if (new Date(this.maxDateValue).getDate() > 9) {
+        for (var j = start2; j <= end2; j++) {
+            day = j;
 
-          if (this.daySuffixes) {
-              day = j + this.getSuffix(j);
-          }
-          this.days.push(j);
-          this.dayOptions.push(day);
+            if (this.daySuffixes) {
+                day = j + this.getSuffix(j);
+            }
+            this.days.push(j);
+            this.dayOptions.push(day);
+        }
       }
     },
     getSuffix: function (number) {
