@@ -249,7 +249,7 @@ export default {
 
       if (this.maxDateValue !== null) {
         console.log(this);
-        end1 = new Date(this.maxDateValue).getDay();
+        end1 = new Date(this.maxDateValue).getDate();
       }
       
 
