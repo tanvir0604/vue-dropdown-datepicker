@@ -266,6 +266,7 @@ export default {
 
       if (this.maxDateValue !== null) {
         end1 = new Date(this.maxDateValue).getDay();
+        console.log(end1);
       }
 
       // Days 1-9
