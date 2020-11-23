@@ -246,7 +246,7 @@
       /* style */
       var __vue_inject_styles__ = function (inject) {
         if (!inject) { return }
-        inject("data-v-3d95bbae_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"select.vue"}, media: undefined });
+        inject("data-v-7f3387f4_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"select.vue"}, media: undefined });
 
       };
       /* scoped */
@@ -326,11 +326,11 @@
           maxDateValue: this.maxDate
         }
       },
-      
+
       created: function created(){
         this.init();
       },
-      
+
       methods: {
 
         init: function init(){
@@ -354,7 +354,7 @@
               return;
           }
           // console.log(this.day, this.month, this.year);
-          var parts = this.processDefaultDate();   
+          var parts = this.processDefaultDate();
           this.day = parseInt(parts[0]);
           this.month = parseInt(parts[1]);
           this.year = parseInt(parts[2]);
@@ -406,7 +406,7 @@
                 this.yearOptions.push(i);
             }
           }
-          
+
           // console.log(this.years);
         },
         populateMonth: function populateMonth(){
@@ -453,7 +453,7 @@
         populateDay: function populateDay(){
         //   console.log('populate day');
           var day,start1=1,start2=10,end1=9,end2=31,
-          month = parseInt(this.month), 
+          month = parseInt(this.month),
           year = parseInt(this.year);
 
           // console.log(this.allowPast , year , this.currentYear , month , this.currentMonth ,start1 , this.currentDay);
@@ -470,13 +470,26 @@
           if(this.minDateValue !== null && new Date(this.minDateValue).getFullYear() === year && new Date(this.minDateValue).getMonth() + 1 === month){
               start1 = start1 < new Date(this.minDateValue).getDate()?new Date(this.minDateValue).getDate():start1;
           }
-          
 
-          
+          if (this.maxDateValue !== null) {
+            if (
+                (new Date(this.maxDateValue).getDate() <= 9)
+                && (year === new Date(this.maxDateValue).getFullYear()
+                && (month === (new Date(this.maxDateValue).getMonth() + 1)))
+            ) {
+              end1 = new Date(this.maxDateValue).getDate();
+            }
+          }
+
           if(start2 < start1){
               start2 = start1;
           }
 
+          if (this.maxDateValue !== null) {
+            if (new Date(this.maxDateValue).getDate() <= 9) {
+              end1 = new Date(this.maxDateValue).getDate();
+            }
+          }
 
           var numDaysInMonth = (new Date(year, month, 0).getDate());
           if(end2 > numDaysInMonth) {
@@ -486,7 +499,6 @@
           if(!this.allowFuture && year === this.currentYear && month === this.currentMonth && end2 > this.currentDay) {
               end2 = this.currentDay;
           }
-          
 
 
           if(this.minAge != null){
@@ -498,7 +510,6 @@
           if(this.maxDateValue !== null && new Date(this.maxDateValue).getFullYear() === year && new Date(this.maxDateValue).getMonth() + 1 === month){
               end2 = end2 > new Date(this.maxDateValue).getDate()?new Date(this.maxDateValue).getDate():end2;
           }
-          
 
           if(end1 > start2){
               start2 = end1;
@@ -507,10 +518,9 @@
               end2 = start2;
           }
 
-
           this.days = [];
           this.dayOptions = [];
-          
+
           if(this.dayLabel){
               this.dayOptions.push(this.dayLabel);
               this.days.push(null);
@@ -528,14 +538,21 @@
           }
 
           // Days 10-31
-          for (var j = start2; j <= end2; j++) {
-              day = j;
+          if ((this.maxDateValue === null)
+                  || (year < new Date(this.maxDateValue).getFullYear())
+                  || (year === new Date(this.maxDateValue).getFullYear() &&
+                          month !== new Date(this.maxDateValue).getMonth() + 1)) {
+          if (new Date(this.maxDateValue).getDate() > 9) {
+              for (var j = start2; j <= end2; j++) {
+                  day = j;
 
-              if (this.daySuffixes) {
-                  day = j + this.getSuffix(j);
+                  if (this.daySuffixes) {
+                      day = j + this.getSuffix(j);
+                  }
+                  this.days.push(j);
+                  this.dayOptions.push(day);
               }
-              this.days.push(j);
-              this.dayOptions.push(day);
+            }
           }
         },
         getSuffix: function (number) {
@@ -841,7 +858,7 @@
       /* style */
       var __vue_inject_styles__$1 = function (inject) {
         if (!inject) { return }
-        inject("data-v-2d591ac5_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"dropdown-datepicker.vue"}, media: undefined });
+        inject("data-v-fb2d524e_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"dropdown-datepicker.vue"}, media: undefined });
 
       };
       /* scoped */
