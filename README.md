@@ -1,5 +1,8 @@
 # Vue Dropdown Datepicker
 
+> [!warning]  
+> This library supports only vue2 and no longer maintained. Please check vue3-dropdown-datepicker
+
 A simple and customizable dropdown datepicker vue component.
 
 ## Check [Examples](https://tanvir0604.github.io/vue-dropdown-datepicker/)
@@ -96,19 +99,19 @@ new Vue({
 ### onDayChange
 Call on any change of day dropdown
 ```javascript
-<dropdown-datepicker v-bind:on-day-change="yourFunctionName"><dropdown-datepicker>
+<dropdown-datepicker v-bind:on-day-change="yourFunctionName"></dropdown-datepicker>
 ```
 
 ### onMonthChange
 Call on any change of month dropdown
 ```javascript
-<dropdown-datepicker v-bind:on-month-change="yourFunctionName"><dropdown-datepicker>
+<dropdown-datepicker v-bind:on-month-change="yourFunctionName"></dropdown-datepicker>
 ```
 
 ### onYearChange
 Call on any change of year dropdown
 ```javascript
-<dropdown-datepicker v-bind:on-year-change="yourFunctionName"><dropdown-datepicker>
+<dropdown-datepicker v-bind:on-year-change="yourFunctionName"></dropdown-datepicker>
 ```
 
 ## Contributing
