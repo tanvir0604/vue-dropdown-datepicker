@@ -117,6 +117,21 @@ which one applies:
 <dropdown-datepicker v-model="date"></dropdown-datepicker>
 ```
 
+## Localized month names
+
+Pass a `locale` prop (a BCP 47 tag, eg. `'en'`, `'fr'`, `'de-DE'`) to have month names come from
+the browser's built-in `Intl.DateTimeFormat` instead of the English `monthLongValues`/
+`monthShortValues` defaults - no extra dependency needed:
+
+```html
+<dropdown-datepicker locale="fr"></dropdown-datepicker>
+```
+
+If `locale` is unset, or set to an invalid/unsupported tag, the component falls back to
+`monthLongValues`/`monthShortValues` as before. Day/month/year field labels (`dayLabel`,
+`monthLabel`, `yearLabel`, etc.) are separate props and aren't affected by `locale` - set those
+yourself if you need them translated too.
+
 ## Options
 | Option                   | Type          | Default          |Comment |
 | -------------            | ------------- | ----------      |--------|
@@ -138,6 +153,7 @@ which one applies:
 | daySuffixes              | boolean       | true            |        |
 | monthSuffixes            | boolean       | true            |        |
 | monthFormat              | string        | 'long'          |        |
+| locale                   | string        | null            | BCP 47 locale tag, eg. 'en', 'fr', 'de-DE'. When set, month names come from `Intl.DateTimeFormat` for that locale, overriding monthLongValues/monthShortValues. Falls back to monthLongValues/monthShortValues if unset or if the locale tag is invalid. |
 | required                 | boolean       | false           |        |
 | dayLabel                 | string        | 'Day'           |        |
 | monthLabel               | string        | 'Month'         |        |

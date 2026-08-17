@@ -20,6 +20,9 @@
   previously there was no automated verification of any kind.
 - ESLint (flat config, `eslint-plugin-vue` essential rules).
 - `CLAUDE.md` project/architecture documentation.
+- `locale` prop (BCP 47 tag, eg. `'en'`, `'fr'`, `'de-DE'`): when set, month names come from the
+  built-in `Intl.DateTimeFormat` instead of `monthLongValues`/`monthShortValues`, falling back to
+  those props if `locale` is unset or invalid.
 
 ### Fixed
 - `defaultDateFormat="unix"` never actually worked: the initial guard in `populateDefaultDate()`
@@ -37,6 +40,11 @@
   missing element and a missing `document` (SSR), instead of throwing.
 - Fixed the `vue: ^3.0.0` / `vue-template-compiler: ^2.6.10` contradictory devDependency pair,
   introduced by an unreviewed Dependabot bump (#29) that never came with actual Vue 3 support.
+- `populateDefaultDate()`'s `allowPast`/`allowFuture` guards compared full millisecond-precision
+  timestamps instead of calendar days, so a `defaultDate` of "right now" (e.g.
+  `new Date().toISOString()` or a moment.js equivalent) was always a few milliseconds in the past
+  by the time the check ran - with `allowPast="false"` this made the component silently refuse to
+  pre-select today's date at all. Comparisons are now done at calendar-day granularity.
 
 ### Changed
 - **Breaking**: minimum supported Vue 2 version is now 2.7.0 (previously 2.6.10+). Projects on

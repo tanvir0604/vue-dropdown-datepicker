@@ -97,4 +97,55 @@ describe('DropdownDatepicker', () => {
     expect(wrapper.vm.month).toBe(1);
     expect(wrapper.vm.day).toBe(15);
   });
+
+  it('preselects today when defaultDate is "now" and allowPast is false', () => {
+    // A defaultDate of "right now" (eg. `new Date().toISOString()`) is
+    // always a few milliseconds in the past by the time populateDefaultDate()
+    // runs. With allowPast=false this must still count as "today", not get
+    // rejected as a disallowed past date.
+    const now = new Date();
+    const wrapper = mountCompat(DropdownDatepicker, {
+      props: { allowPast: false, defaultDate: now.toISOString() },
+    });
+    expect(wrapper.vm.day).toBe(now.getDate());
+    expect(wrapper.vm.month).toBe(now.getMonth() + 1);
+    expect(wrapper.vm.year).toBe(now.getFullYear());
+  });
+
+  it('uses monthLongValues/monthShortValues (English defaults) when no locale is set', () => {
+    const wrapper = mountCompat(DropdownDatepicker, { props: { monthFormat: 'long' } });
+    const monthSelect = selects(wrapper).filter((s) => s.attributes('name') === 'month')[0];
+    const optionTexts = toArray(monthSelect.findAll('option')).map((o) => o.text());
+    expect(optionTexts).toContain('January');
+  });
+
+  it('renders localized month names when a locale prop is set', () => {
+    const wrapper = mountCompat(DropdownDatepicker, {
+      props: { locale: 'fr', monthFormat: 'long' },
+    });
+    const monthSelect = selects(wrapper).filter((s) => s.attributes('name') === 'month')[0];
+    const optionTexts = toArray(monthSelect.findAll('option')).map((o) => o.text());
+    expect(optionTexts).toContain('janvier');
+    expect(optionTexts).not.toContain('January');
+  });
+
+  it('renders localized short month names for monthFormat="short"', () => {
+    const wrapper = mountCompat(DropdownDatepicker, {
+      props: { locale: 'fr', monthFormat: 'short' },
+    });
+    const monthSelect = selects(wrapper).filter((s) => s.attributes('name') === 'month')[0];
+    const optionTexts = toArray(monthSelect.findAll('option')).map((o) => o.text());
+    expect(optionTexts).toContain('janv.');
+  });
+
+  it('falls back to monthLongValues for a malformed locale tag instead of throwing', () => {
+    // Underscore instead of hyphen is not valid BCP 47 syntax and makes
+    // Intl.DateTimeFormat throw a RangeError - must not crash the component.
+    const wrapper = mountCompat(DropdownDatepicker, {
+      props: { locale: 'invalid_locale', monthFormat: 'long' },
+    });
+    const monthSelect = selects(wrapper).filter((s) => s.attributes('name') === 'month')[0];
+    const optionTexts = toArray(monthSelect.findAll('option')).map((o) => o.text());
+    expect(optionTexts).toContain('January');
+  });
 });

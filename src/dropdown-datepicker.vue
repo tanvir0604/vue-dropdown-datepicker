@@ -40,6 +40,11 @@ export default {
     daySuffixes: {type: Boolean, default:true},
     monthSuffixes: {type: Boolean, default:true},
     monthFormat: {type: String, default:'long'},
+    // BCP 47 locale tag (eg. 'en', 'fr', 'de-DE'). When set, month names
+    // come from Intl.DateTimeFormat for that locale instead of
+    // monthLongValues/monthShortValues, which are only used as a fallback
+    // (no locale set, or an invalid/unsupported locale tag).
+    locale: {type: String, default: null},
     required: {type: Boolean, default:false},
     dayLabel: {type: String, default:'Day'},
     monthLabel: {type: String, default:'Month'},
@@ -59,6 +64,19 @@ export default {
   emits: ['input', 'update:modelValue'],
   components: {
     Select
+  },
+  computed: {
+    resolvedMonthLongValues() {
+      return this.buildLocalizedMonthValues('long') || this.monthLongValues;
+    },
+    resolvedMonthShortValues() {
+      return this.buildLocalizedMonthValues('short') || this.monthShortValues;
+    }
+  },
+  watch: {
+    locale() {
+      this.populateMonth();
+    }
   },
   data () {
     return {
@@ -103,12 +121,26 @@ export default {
       if (isNaN(defaultDateTime) === true) {
           return;
       }
-      if(!this.allowPast && new Date().getTime() > defaultDateTime) {
+
+      // Compare at calendar-day granularity, not exact timestamp. This
+      // component only deals in day/month/year, so allowPast/allowFuture
+      // mean "is this calendar day selectable", not "is this exact instant
+      // in the future". Comparing full timestamps meant a defaultDate of
+      // "right now" (eg. `new Date().toISOString()`) was always a few
+      // milliseconds in the past by the time this code ran, so with
+      // allowPast=false it always looked like a disallowed past date and
+      // silently failed to pre-select anything.
+      var today = new Date();
+      var todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+      var defaultDateObj = new Date(defaultDateTime);
+      var defaultDateStart = new Date(defaultDateObj.getFullYear(), defaultDateObj.getMonth(), defaultDateObj.getDate()).getTime();
+
+      if(!this.allowPast && todayStart > defaultDateStart) {
           return;
       }
 
       // if future date is disallowed and default is a future date then no default date is selected
-      if(!this.allowFuture && new Date().getTime() < defaultDateTime){
+      if(!this.allowFuture && todayStart < defaultDateStart){
           return;
       }
       // console.log(this.day, this.month, this.year);
@@ -206,8 +238,25 @@ export default {
       }
       for (var monthNo = start; monthNo <= end; monthNo++) {
           this.months.push(monthNo);
-          this.monthOptions.push(this.monthFormat == 'long'?this.monthLongValues[monthNo-1]:this.monthShortValues[monthNo-1]);
+          this.monthOptions.push(this.monthFormat == 'long'?this.resolvedMonthLongValues[monthNo-1]:this.resolvedMonthShortValues[monthNo-1]);
       }
+    },
+    buildLocalizedMonthValues: function (format) {
+        if (!this.locale) {
+            return null;
+        }
+        try {
+            var formatter = new Intl.DateTimeFormat(this.locale, { month: format });
+            var names = [];
+            for (var m = 0; m < 12; m++) {
+                names.push(formatter.format(new Date(2000, m, 1)));
+            }
+            return names;
+        } catch {
+            // Invalid/unsupported locale tag - fall back to
+            // monthLongValues/monthShortValues rather than crashing.
+            return null;
+        }
     },
     populateDay(){
     //   console.log('populate day');
