@@ -197,10 +197,11 @@ Feel free to submit any fixes or propose any additional functionality via pull r
 making sure any changes take place in `/src`.
 
 Run `npm install`, then:
-- `npm run build` builds both the Vue 2.7 (`dist/v2`) and Vue 3 (`dist/v3`) targets. Building the
-  Vue 2.7 target requires the Vue 2.7 toolchain, installed via `npm run setup:v2-toolchain`
-  (see `CLAUDE.md` for why this can't be a normal devDependency).
-- `npm run test:v3` / `npm run test:v2` run the test suite against each Vue major.
+- `npm run build` builds both the Vue 2.7 (`dist/v2`) and Vue 3 (`dist/v3`) targets in one command
+  (it swaps in the Vue 2.7 toolchain, builds, then restores the Vue 3 toolchain afterward - see
+  `CLAUDE.md` for why the Vue 2.7 toolchain can't be a normal devDependency).
+- `npm run test:v3` / `npm run test:v2` run the test suite against each Vue major (`test:v2`
+  requires `npm run setup:v2-toolchain` first).
 - `npm run lint` runs ESLint.
 
 ## License

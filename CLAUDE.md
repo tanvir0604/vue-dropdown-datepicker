@@ -54,8 +54,12 @@ peer-conflict with the Vue 3 toolchain (`@vitejs/plugin-vue`, `vue@^3.5.x`,
 `node_modules` tree, and there is no single `@vue/test-utils` version that supports both Vue
 majors. Run `npm run setup:v2-toolchain` (an `npm install --no-save --legacy-peer-deps ...`) to
 swap in the Vue 2.7 set ephemerally before `npm run build:v2` / `npm run test:v2`, then
-`rm -rf node_modules package-lock.json && npm install` to get back to the Vue 3 default. This is
-exactly what CI does per matrix leg (`.github/workflows/ci.yml`).
+`npm run restore:v3-toolchain` (`rm -rf node_modules package-lock.json && npm install`) to get
+back to the Vue 3 default. This is exactly what CI does per matrix leg
+(`.github/workflows/ci.yml`), and what `npm run build` does internally so it's a single working
+command end-to-end (see Commands below) - don't "simplify" `build` back to
+`build:v2 && build:v3` without the toolchain swap in between; `build:v3` will fail immediately
+after `build:v2` otherwise (`vue/compiler-sfc` isn't resolvable under the Vue 2.7 toolchain).
 
 If you ever see `npm install --no-save` silently *remove* packages that should still be there
 (e.g. `vue` itself disappearing from `node_modules`), it's because npm re-resolves the whole tree
@@ -70,8 +74,12 @@ let a future edit emit only one of them.
 
 ## Commands
 
-- `npm run build` - builds both targets (`build:v2` then `build:v3`). `build:v2` requires the Vue
-  2.7 toolchain (see above).
+- `npm run build` - builds both targets end-to-end as one command: installs the Vue 2.7 toolchain,
+  runs `build:v2`, restores the Vue 3 toolchain (full `node_modules` reinstall), then runs
+  `build:v3`. Slower than a single Vite build (a full reinstall happens mid-script) but leaves
+  `node_modules` back at its normal Vue 3 default state afterward and needs no manual steps.
+- `npm run build:v2` / `npm run build:v3` - build just one target with whichever toolchain is
+  *currently* installed (you must have run `setup:v2-toolchain` first for `build:v2`).
 - `npm run test:v3` / `npm run test:v2` - Vitest against each target. Same spec files
   (`test/*.spec.js`) run against both; `test/helpers.js` has `mountCompat()`/`toArray()` to smooth
   over `@vue/test-utils` v1-vs-v2 API differences (`props` vs `propsData`, `WrapperArray` vs plain
