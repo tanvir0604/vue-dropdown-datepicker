@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  test-and-build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        vue-major: [2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Install Vue 2.7 build/test toolchain
+        if: matrix.vue-major == 2
+        run: npm run setup:v2-toolchain
+      - run: npm run test:v${{ matrix.vue-major }}
+      - run: npm run build:v${{ matrix.vue-major }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-v${{ matrix.vue-major }}
+          path: dist/v${{ matrix.vue-major }}

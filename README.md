@@ -1,17 +1,22 @@
 # Vue Dropdown Datepicker
 
-> [!warning]  
-> This library supports only vue2 and no longer maintained. Please check vue3-dropdown-datepicker
+[![npm version](https://img.shields.io/npm/v/vue-dropdown-datepicker.svg)](https://www.npmjs.com/package/vue-dropdown-datepicker)
+[![CI](https://github.com/tanvir0604/vue-dropdown-datepicker/actions/workflows/ci.yml/badge.svg)](https://github.com/tanvir0604/vue-dropdown-datepicker/actions/workflows/ci.yml)
 
-A simple and customizable dropdown datepicker vue component.
+A simple and customizable dropdown datepicker vue component. Works with **Vue 2.7+** and **Vue 3** from the same package.
 
 ## Check [Examples](https://tanvir0604.github.io/vue-dropdown-datepicker/)
 
+## Requirements
+
+- Vue **2.7.0** or later, or Vue **3.0.0** or later.
+- Projects still on Vue 2.6 or below (Vue 2.7 is the last 2.x release) should stay on
+  [`vue-dropdown-datepicker@1.x`](https://www.npmjs.com/package/vue-dropdown-datepicker/v/1.3.1),
+  which remains published on npm and is unaffected by this release.
+
 ## Installation
 
-### [vuejs](https://vuejs.org/) is required to use this component
-
-### Package manager 
+### Package manager
 #### Using [npm](https://www.npmjs.com)
 
 ```bash
@@ -24,50 +29,100 @@ npm i vue-dropdown-datepicker
 yarn add vue-dropdown-datepicker
 ```
 
-#### Using [bower](https://bower.io)
-
-```bash
-bower install vue-dropdown-datepicker
-```
-
 #### Using CDN
 
-```code
-<script src="https://cdn.jsdelivr.net/npm/vue-dropdown-datepicker@1.3.1/dist/dropdown-datepicker.min.js"></script>
+Pick the build matching your Vue major version:
+
+```html
+<!-- Vue 3 -->
+<script src="https://unpkg.com/vue-dropdown-datepicker@2/dist/v3/dropdown-datepicker.iife.js"></script>
 ```
-OR
-```code
-<script src="https://unpkg.com/vue-dropdown-datepicker@1.3.1/dist/dropdown-datepicker.min.js"></script>
+```html
+<!-- Vue 2.7 -->
+<script src="https://unpkg.com/vue-dropdown-datepicker@2/dist/v2/dropdown-datepicker.iife.js"></script>
 ```
+
+jsDelivr works the same way, substituting `unpkg.com` for `cdn.jsdelivr.net/npm`.
+
 ## Usage
 
-### ES6
+### ES module bundlers (Vite, webpack, etc.)
+
+The package resolves to the right build automatically for `import`. If your bundler/toolchain
+needs one Vue major explicitly, use the `/v2` or `/v3` subpath import instead of the bare
+package name.
+
 ```javascript
-import DropdownDatepicker from '../src/dropdown-datepicker.vue';
+// Vue 3
+import { createApp } from 'vue';
+import DropdownDatepicker from 'vue-dropdown-datepicker';
+
+createApp({
+  components: { DropdownDatepicker },
+}).mount('#app');
+```
+
+```javascript
+// Vue 2.7
+import Vue from 'vue';
+import DropdownDatepicker from 'vue-dropdown-datepicker';
+
 new Vue({
-    el: '#app',
-    components: {
-        DropdownDatepicker
-    }
+  el: '#app',
+  components: { DropdownDatepicker },
 });
 ```
 
-### Browser
+### Plugin install (registers `<DropdownDatepicker>` globally)
+
+```javascript
+// Vue 3
+import { createApp } from 'vue';
+import DropdownDatepicker from 'vue-dropdown-datepicker';
+
+const app = createApp({ /* ... */ });
+app.use(DropdownDatepicker);
+app.mount('#app');
+```
+
+```javascript
+// Vue 2.7
+import Vue from 'vue';
+import DropdownDatepicker from 'vue-dropdown-datepicker';
+
+Vue.use(DropdownDatepicker);
+```
+
+### Browser (`<script>` tag, Vue 2.7 only)
+
+Loading Vue 2.7 globally via `<script>` before this package's Vue-2 build auto-installs
+`<DropdownDatepicker>` as a global component (same as versions 1.x). Vue 3's CDN global does not
+support this auto-install pattern - call `app.use(DropdownDatepicker)` yourself instead, as shown
+above.
+
 ```javascript
 new Vue({
-    el: '#app',
-    components: {
-        DropdownDatepicker
-    }
+  el: '#app',
 });
+```
+
+## v-model
+
+`<DropdownDatepicker v-model="date">` works the same way regardless of which Vue major is
+installed - the component emits both the Vue 2 (`value`/`input`) and Vue 3
+(`modelValue`/`update:modelValue`) v-model contracts together, so consumers never need to know
+which one applies:
+
+```html
+<dropdown-datepicker v-model="date"></dropdown-datepicker>
 ```
 
 ## Options
-| Option                   | Type          | Defult          |Comment |
+| Option                   | Type          | Default          |Comment |
 | -------------            | ------------- | ----------      |--------|
 | defaultDate              | string        | null            |        |
-| defaultDateFormat        | string        | 'yyyy-mm-dd'    |        |
-| displayFormat            | string        | 'dmy'           |        |
+| defaultDateFormat        | string        | 'yyyy-mm-dd'    | also supports 'dd/mm/yyyy', 'mm/dd/yyyy', 'unix' |
+| displayFormat            | string        | 'ymd'           | 'ymd', 'dmy', or 'mdy' |
 | submitFormat             | string        | 'yyyy-mm-dd'    |        |
 | submitId                 | string        | null            |        |
 | minAge                   | int           | null            |        |
@@ -84,7 +139,7 @@ new Vue({
 | monthSuffixes            | boolean       | true            |        |
 | monthFormat              | string        | 'long'          |        |
 | required                 | boolean       | false           |        |
-| dayLabel                 | string        | 'Day            |        |
+| dayLabel                 | string        | 'Day'           |        |
 | monthLabel               | string        | 'Month'         |        |
 | yearLabel                | string        | 'Year'          |        |
 | sortYear                 | string        | 'desc'          |        |
@@ -95,6 +150,13 @@ new Vue({
 
 
 ## Events
+
+### v-model / onChange
+See the [v-model](#v-model) section above for two-way binding. Alternatively, pass an `onChange`
+callback prop to receive the selected day/month/year directly:
+```javascript
+<dropdown-datepicker v-bind:on-change="yourFunctionName"></dropdown-datepicker>
+```
 
 ### onDayChange
 Call on any change of day dropdown
@@ -115,9 +177,15 @@ Call on any change of year dropdown
 ```
 
 ## Contributing
-Contributing Feel free to submit any fixes or propose any additional functionality via pull request or issue, making sure any changes take place in /src.
+Feel free to submit any fixes or propose any additional functionality via pull request or issue,
+making sure any changes take place in `/src`.
 
-Minification and Validation Both are automated via npm command. Run npm install to install the required dependencies, then run npm run build from the root of the project to handle the tasks.
+Run `npm install`, then:
+- `npm run build` builds both the Vue 2.7 (`dist/v2`) and Vue 3 (`dist/v3`) targets. Building the
+  Vue 2.7 target requires the Vue 2.7 toolchain, installed via `npm run setup:v2-toolchain`
+  (see `CLAUDE.md` for why this can't be a normal devDependency).
+- `npm run test:v3` / `npm run test:v2` run the test suite against each Vue major.
+- `npm run lint` runs ESLint.
 
 ## License
 [ISC](https://choosealicense.com/licenses/isc/)

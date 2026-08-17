@@ -25,11 +25,11 @@
         created (){
             this.processItems();
         },
-        watch: { 
-            values: function(newVal, oldVal) {
+        watch: {
+            values: function() {
                 this.processItems();
             },
-            value: function(newVal, oldVal){
+            value: function(){
                 this.fieldValue = this.value;
             }
         },

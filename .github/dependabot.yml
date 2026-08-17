@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      # A semver-major Dependabot bump of `vue` broke devDependency intent
+      # once before (it went from vue@2.6.10 to vue@3.0.0 without any of the
+      # accompanying Vue 3 migration work actually happening - the build kept
+      # emitting Vue-2-only render output for years afterwards). Major Vue
+      # bumps need a human evaluating the dual Vue 2.7/Vue 3 build & test
+      # setup in package.json, not an automatic merge.
+      - dependency-name: vue
+        update-types: ['version-update:semver-major']

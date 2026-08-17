@@ -53,8 +53,10 @@ export default {
     onMonthChange: {type: Function, default:null},
     onYearChange: {type: Function, default:null},
     onChange: {type: Function, default: null},
-    value: {type: String, default:null}
+    value: {type: String, default:null},
+    modelValue: {type: String, default:null}
   },
+  emits: ['input', 'update:modelValue'],
   components: {
     Select
   },
@@ -90,19 +92,27 @@ export default {
 
     populateDefaultDate() {
       // console.log(this.day, this.month, this.year);
-      if (isNaN(Date.parse(this.defaultDate)) === true) {
+      // 'unix' defaultDate is a raw epoch-seconds string, which Date.parse()
+      // cannot interpret as a date (it always returns NaN for it) - convert
+      // it to an epoch-ms timestamp instead so the guards below work for
+      // every supported defaultDateFormat.
+      var defaultDateTime = this.defaultDateFormat === 'unix'
+          ? Number(this.defaultDate) * 1000
+          : Date.parse(this.defaultDate);
+
+      if (isNaN(defaultDateTime) === true) {
           return;
       }
-      if(!this.allowPast && new Date().getTime() > new Date(this.defaultDate).getTime()) {
+      if(!this.allowPast && new Date().getTime() > defaultDateTime) {
           return;
       }
 
       // if future date is disallowed and default is a future date then no default date is selected
-      if(!this.allowFuture && new Date().getTime() < new Date(this.defaultDate).getTime()){
+      if(!this.allowFuture && new Date().getTime() < defaultDateTime){
           return;
       }
       // console.log(this.day, this.month, this.year);
-      var parts = this.processDefaultDate();   
+      var parts = this.processDefaultDate();
       this.day = parseInt(parts[0]);
       this.month = parseInt(parts[1]);
       this.year = parseInt(parts[2]);
@@ -143,13 +153,14 @@ export default {
           this.years.push(null);
           this.yearOptions.push(this.yearLabel);
       }
+      var i;
       if(this.sortYear == 'desc'){
-        for (var i = maxYear; i >= minYear; i--) {
+        for (i = maxYear; i >= minYear; i--) {
             this.years.push(i);
             this.yearOptions.push(i);
         }
       }else{
-        for (var i = minYear; i <= maxYear; i++) {
+        for (i = minYear; i <= maxYear; i++) {
             this.years.push(i);
             this.yearOptions.push(i);
         }
@@ -431,10 +442,14 @@ export default {
     changeCallback(){
         if(this.day != null && this.month != null && this.year != null){
           var formattedDate = this.formatSubmitDate(this.day, this.month, this.year);
-          if (this.submitId != '') {
-            document.getElementById(this.submitId).value = formattedDate;
+          if (this.submitId != '' && typeof document !== 'undefined') {
+            var submitEl = document.getElementById(this.submitId);
+            if (submitEl) {
+              submitEl.value = formattedDate;
+            }
           }
           this.$emit('input', formattedDate);
+          this.$emit('update:modelValue', formattedDate);
         }
         if(this.onChange != null){
             this.onChange(('0' + this.day).slice(-2), ('0' + this.month).slice(-2), this.year);

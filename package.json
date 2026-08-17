@@ -1,18 +1,50 @@
 {
   "name": "vue-dropdown-datepicker",
-  "version": "1.3.1",
-  "description": "A simple and customizable dropdown datepicker vue component",
-  "main": "dist/dropdown-datepicker.umd.js",
-  "module": "dist/dropdown-datepicker.esm.js",
-  "unpkg": "dist/dropdown-datepicker.min.js",
-  "browser": {
-    "./sfc": "src/dropdown-datepicker.vue"
+  "version": "2.0.0",
+  "description": "A simple and customizable dropdown datepicker vue component, compatible with Vue 2.7+ and Vue 3",
+  "type": "module",
+  "main": "src/entry.cjs",
+  "module": "dist/v3/dropdown-datepicker.esm.js",
+  "unpkg": "dist/v3/dropdown-datepicker.iife.js",
+  "jsdelivr": "dist/v3/dropdown-datepicker.iife.js",
+  "exports": {
+    ".": {
+      "require": "./src/entry.cjs",
+      "import": "./dist/v3/dropdown-datepicker.esm.js",
+      "default": "./src/entry.cjs"
+    },
+    "./v2": {
+      "require": "./dist/v2/dropdown-datepicker.cjs",
+      "import": "./dist/v2/dropdown-datepicker.esm.js"
+    },
+    "./v3": {
+      "require": "./dist/v3/dropdown-datepicker.cjs",
+      "import": "./dist/v3/dropdown-datepicker.esm.js"
+    },
+    "./sfc": "./src/dropdown-datepicker.vue",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "vue": "^2.7.0 || ^3.0.0"
   },
   "scripts": {
-    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
-    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/dropdown-datepicker.umd.js",
-    "build:es": "rollup --config build/rollup.config.js --format es --file dist/dropdown-datepicker.esm.js",
-    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/dropdown-datepicker.min.js"
+    "build": "npm run build:v2 && npm run build:v3",
+    "build:v2": "vite build --config build/vite.config.v2.js",
+    "build:v3": "vite build --config build/vite.config.v3.js",
+    "test": "npm run test:v3",
+    "test:v2": "vitest run --config test/vitest.config.v2.js",
+    "test:v3": "vitest run --config test/vitest.config.v3.js",
+    "lint": "eslint .",
+    "setup:v2-toolchain": "npm install --no-save --legacy-peer-deps @vitejs/plugin-vue2@^2.3.4 vue@2.7.16 @vue/test-utils@1.3.6 vue-template-compiler@2.7.16"
   },
   "repository": {
     "type": "git",
@@ -20,6 +52,8 @@
   },
   "keywords": [
     "vue",
+    "vue2",
+    "vue3",
     "vuejs",
     "component",
     "dropdown",
@@ -33,11 +67,13 @@
   },
   "homepage": "https://github.com/tanvir0604/vue-dropdown-datepicker#readme",
   "devDependencies": {
-    "rollup": "^4.34.1",
-    "rollup-plugin-buble": "^0.19.6",
-    "rollup-plugin-commonjs": "^9.3.4",
-    "rollup-plugin-vue": "^6.0.0",
-    "vue": "^3.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vue/test-utils": "^2.4.11",
+    "eslint": "^9.0.0",
+    "eslint-plugin-vue": "^10.8.1",
+    "happy-dom": "^20.11.2",
+    "vite": "^7.0.0",
+    "vitest": "^4.1.10",
+    "vue": "^3.5.41"
   }
 }
